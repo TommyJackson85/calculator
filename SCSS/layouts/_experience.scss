@@ -1,0 +1,16 @@
+    #projects {
+      padding: 0px 0px 1.5px 0px;
+      h6, i {
+    	  color: $link-color-text;
+        font-size: 1.8rem;
+      }
+      a:hover {
+        h6,i{
+    	  color: $linkHover-color-text;}
+      }
+    }
+    #work {
+      padding: 0px 0px 0px 0px;
+    }
+    
+    
