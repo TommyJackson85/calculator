@@ -29,8 +29,8 @@ const pushToCalculation = function(array){
 	let string;
 	if(array.length > 0) { 
 		string = ([".", "-."].includes(array[0])) ? array.join("") + "0" : array.join(""); 
+		calculation.push(string);
 	}
-	calculation.push(string);
 	empty(array);
 }
 const displayCalculation = function(){
@@ -54,13 +54,13 @@ for (var key of numbers){
 			if(calculation[calculation.length-1] == "=") { clearAll(); }
 			if(newOperator.length == 1 && newNumber.length >= 0) { pushToCalculation(newOperator); }
 			//pushes decimal OR number, building a number
-		   	if (this.value == "."){
-				if(disableDec == false) { //alows decimal once
+		   	if (this.value === "." && disableDec == false){ //alows decimal once
 					newNumber.push(this.value);
 					disableDec = true;
-				} 
 			} 
-			else { newNumber.push(this.value); }
+			if(this.value !== ".") { 
+				newNumber.push(this.value); 
+			}
 			displayCalculation();
 			displayedInput.innerHTML = newNumber.join("");
 		}
@@ -71,20 +71,17 @@ const operatorIds = ["add", "subtract", "multiply", "divide", "answer"];
 for (var key of operatorIds) {
 	let operator = document.getElementById(key);
 	operator.onclick = function(){
-		if(newNumber.length >= 1 || newOperator.length == 1 || displayedInput.innerHTML == "removed"){
+		if(newNumber.length >= 1 || newOperator.length == 1 || calculation.length > 0){
 			disableDec = false;
-			if (this.value === "=") {
-				if (calculation[calculation.length-1] != "="){
-					//adds last number
-					pushToCalculation(newNumber);
-					//changes string to real calculation
-					let realCalculation = calculation.join(" ").replace(/x/g , "*");
-					newNumber.push(eval(realCalculation) + "");//calulates, then turns back to string for manipulation
-					calculation.push("=");//only for display
-					displayCalculation();
-					displayedInput.innerHTML = eval(realCalculation); //displays answer
-				}
-			} else { //other operators				
+			if (this.value === "=" && calculation[calculation.length-1] != "="){
+				pushToCalculation(newNumber);//changes string to real calculation
+				let realCalculation = calculation.join(" ").replace(/x/g , "*");
+				newNumber.push(eval(realCalculation) + "");//calulates, then turns back to string for manipulation
+				calculation.push("=");//only for display
+				displayCalculation();
+				displayedInput.innerHTML = eval(realCalculation); //displays answer
+			}
+			if (this.value !== "="){ //other operators				
 				if (calculation[calculation.length-1] == "=") { empty(calculation);	}	
 				pushToCalculation(newNumber);//either new number or previous answer
 				empty(newOperator);
@@ -113,17 +110,17 @@ remove.onclick = function(){
 	if (newOperator.length > 0 || newNumber.length > 0){
 		if(['=', '+', '-', 'x', '/'].includes(calculation[calculation.length-1])){	calculation.splice(-1,1) };
 		clearInputs();
+	} else { 
+		calculation.splice(-2,2); 
 	}
-	else { calculation.splice(-2,2) }
 	displayCalculation();
 	displayedInput.innerHTML = "removed";
 }
-
 const percentage = document.getElementById("percentage");
 percentage.onclick = function(){
 	if (newNumber.length >= 1){
 		disableDec == false;
-		displayedCalc.innerHTML = "percentage"
+		displayedCalc.innerHTML = "percentage";
 		displayedInput.innerHTML = eval(newNumber.join("")) / 100;
 		clearAll();
 	}
