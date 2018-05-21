@@ -3,5 +3,8 @@
     background: red;
 }
 #displayedCalc {
-    color:red;
+    color: white;
+}
+#displayedInput {
+    color: white;
 }
