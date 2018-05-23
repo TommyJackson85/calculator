@@ -34,11 +34,9 @@ const pushToCalculation = function(array){
 	empty(array);
 }
 const displayCalculation = function(){
-	if(calculation.join(" ").length > 42){
-		//keeps it within the right size for the screen
-		let lengthToCut = calculation.join(" ").length - 42; 
-		console.log(lengthToCut);
-		displayedCalc.innerHTML = "..." + calculation.join(" ").slice(lengthToCut);
+	if(calculation.join(" ").length > 34){
+		displayedCalc.innerHTML = "..." + calculation.join(" ").slice(calculation.join(" ").length - 34);
+		//keeps it to the length of 34 or less.
 	} else {
 		displayedCalc.innerHTML = (calculation.length == 0) ? "cleared" : calculation.join(" ");
 	}
@@ -49,20 +47,21 @@ for (var key of numbers){
 	let number = document.getElementById("num" + key);
 	number.onclick = function(){
 		//criteria to be used 
-		if(calculation.length == 0 || newOperator.length == 1 
+		if(calculation.length == 0 || newOperator.length == 1
 		|| ['=', '+', '-', 'x', '/'].includes(calculation[calculation.length-1])){
 			if(calculation[calculation.length-1] == "=") { clearAll(); }
 			if(newOperator.length == 1 && newNumber.length >= 0) { pushToCalculation(newOperator); }
 			//pushes decimal OR number, building a number
-		   	if (this.value === "." && disableDec == false){ //alows decimal once
+		   	if (this.value === "." && disableDec == false && newNumber.length < 35){ //alows decimal once
 					newNumber.push(this.value);
 					disableDec = true;
 			} 
-			if(this.value !== ".") { 
+			if(this.value !== "." && newNumber.length < 35) { 
 				newNumber.push(this.value); 
 			}
 			displayCalculation();
-			displayedInput.innerHTML = newNumber.join("");
+			displayedInput.innerHTML = (newNumber.length == 35) ? "exceeds limit>>" + newNumber.join("").slice(13) 
+			: (newNumber.join(""));
 		}
 	}
 }

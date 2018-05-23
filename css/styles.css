@@ -9,7 +9,8 @@
 #base{
 	background: #c0392b;
 	width: 320px;
-	height: 290px;
+	height: 100%;
+	padding-bottom: 7px;
 	border-radius: 25px 10px 15px 15px;
 }
 #display{
