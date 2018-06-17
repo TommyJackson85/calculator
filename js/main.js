@@ -115,12 +115,13 @@ remove.onclick = function(){
 	displayCalculation();
 	displayedInput.innerHTML = "removed";
 }
-const percentage = document.getElementById("percentage");
-percentage.onclick = function(){
+const divide100 = document.getElementById("divide100");
+divide100.onclick = function(){
 	if (newNumber.length >= 1){
-		disableDec == false;
-		displayedCalc.innerHTML = "percentage";
-		displayedInput.innerHTML = eval(newNumber.join("")) / 100;
-		clearAll();
+		let tempNum = ((eval(newNumber.join("")) / 100) + "").split("");
+		empty(newNumber);
+		for (let value of tempNum) { newNumber.push(value);}
+		displayCalculation();
+		displayedInput.innerHTML = newNumber.join("");
 	}
 }

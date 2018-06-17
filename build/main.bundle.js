@@ -172,12 +172,36 @@ remove.onclick = function () {
 	displayCalculation();
 	displayedInput.innerHTML = "removed";
 };
-var percentage = document.getElementById("percentage");
-percentage.onclick = function () {
+var divide100 = document.getElementById("divide100");
+divide100.onclick = function () {
 	if (newNumber.length >= 1) {
-		disableDec == false;
-		displayedCalc.innerHTML = "percentage";
-		displayedInput.innerHTML = eval(newNumber.join("")) / 100;
-		clearAll();
+		var tempNum = (eval(newNumber.join("")) / 100 + "").split("");
+		empty(newNumber);
+		var _iteratorNormalCompletion3 = true;
+		var _didIteratorError3 = false;
+		var _iteratorError3 = undefined;
+
+		try {
+			for (var _iterator3 = tempNum[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+				var value = _step3.value;
+				newNumber.push(value);
+			}
+		} catch (err) {
+			_didIteratorError3 = true;
+			_iteratorError3 = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion3 && _iterator3.return) {
+					_iterator3.return();
+				}
+			} finally {
+				if (_didIteratorError3) {
+					throw _iteratorError3;
+				}
+			}
+		}
+
+		displayCalculation();
+		displayedInput.innerHTML = newNumber.join("");
 	}
 };
